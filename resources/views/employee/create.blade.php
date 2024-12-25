@@ -54,7 +54,7 @@
                                 name="firstName" id="firstName" value="{{ old('firstName') }}"
                                 placeholder="Enter First Name">
                             @error('firstName')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="text-danger"><small>{{ $message }}</small></div>
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
@@ -63,7 +63,7 @@
                                 name="lastName" id="lastName" value="{{ old('lastName') }}"
                                 placeholder="Enter Last Name">
                             @error('lastName')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="text-danger"><small>{{ $message }}</small></div>
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
@@ -71,7 +71,7 @@
                             <input class="form-control @error('email') is-invalid @enderror" type="text"
                                 name="email" id="email" value="{{ old('email') }}" placeholder="Enter Email">
                             @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="text-danger"><small>{{ $message }}</small></div>
                             @enderror
                         </div>
                         <div class="col-md-6 mb-3">
@@ -79,14 +79,16 @@
                             <input class="form-control @error('age') is-invalid @enderror" type="text" name="age"
                                 id="age" value="{{ old('age') }}" placeholder="Enter Age">
                             @error('age')
-                                <div class="invalid-feedback">{{ $message }}</div>
+                                <div class="text-danger"><small>{{ $message }}</small></div>
                             @enderror
                         </div>
                         <div class="col-md-12 mb-3">
                             <label for="position" class="form-label">Position</label>
                             <select name="position" id="position" class="form-select">
                                 @foreach ($positions as $position)
-                                    <option value="{{ $position->id }}" {{ old('position') == $position->id ? 'selected' : '' }}>{{ $position->code.' - '.$position->name }}</option>
+                                    <option value="{{ $position->id }}"
+                                        {{ old('position') == $position->id ? 'selected' : '' }}>
+                                        {{ $position->code . ' - ' . $position->name }}</option>
                                 @endforeach
                             </select>
                             @error('position')
