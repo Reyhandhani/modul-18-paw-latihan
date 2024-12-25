@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
+use App\Models\Employee;
+use App\Models\Position;
 
 class EmployeeController extends Controller
 {
@@ -15,12 +17,8 @@ class EmployeeController extends Controller
     {
         $pageTitle = 'Employee List';
 
-        // RAW SQL QUERY
-        $employees = DB::select('
-        select *, employees.id as employee_id, positions.name as position_name
-        from employees
-        left join positions on employees.position_id = positions.id
-    ');
+        // ELOQUENT
+        $employees = Employee::all();
 
         return view('employee.index', [
             'pageTitle' => $pageTitle,
@@ -34,8 +32,9 @@ class EmployeeController extends Controller
     public function create()
     {
         $pageTitle = 'Create Employee';
-        // RAW SQL Query
-        $positions = DB::select('select * from positions');
+
+        // ELOQUENT
+        $positions = Position::all();
 
         return view('employee.create', compact('pageTitle', 'positions'));
     }
@@ -62,14 +61,14 @@ class EmployeeController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        // INSERT QUERY
-        DB::table('employees')->insert([
-            'firstname' => $request->firstName,
-            'lastname' => $request->lastName,
-            'email' => $request->email,
-            'age' => $request->age,
-            'position_id' => $request->position,
-        ]);
+        // ELOQUENT
+        $employee = New Employee;
+        $employee->firstname = $request->firstName;
+        $employee->lastname = $request->lastName;
+        $employee->email = $request->email;
+        $employee->age = $request->age;
+        $employee->position_id = $request->position;
+        $employee->save();
 
         return redirect()->route('employees.index');
     }
